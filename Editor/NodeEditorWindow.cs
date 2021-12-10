@@ -240,7 +240,7 @@ namespace XNodeEditor
         {
             if (!graph) return null;
 
-            NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, "xNode", true) as NodeEditorWindow;
+            NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, $"{graph.name}", true) as NodeEditorWindow;
             w.wantsMouseMove = true;
             w.graph = graph;
             return w;
