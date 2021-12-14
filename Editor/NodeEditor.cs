@@ -19,6 +19,8 @@ namespace XNodeEditor
         /// <summary> Fires every whenever a node was modified through the editor </summary>
         public static Action<XNode.Node> onUpdateNode;
         public readonly static Dictionary<XNode.NodePort, Vector2> portPositions = new Dictionary<XNode.NodePort, Vector2>();
+        protected virtual string[] propertyExcludes => new string[] { "m_Script", "graph", "position", "ports" };
+        protected virtual string[] dynamicPortExcludes => new string[] { };
 
 #if ODIN_INSPECTOR
         protected internal static bool inNodeEditor = false;
@@ -40,7 +42,6 @@ namespace XNodeEditor
             // serializedObject.Update(); must go at the start of an inspector gui, and
             // serializedObject.ApplyModifiedProperties(); goes at the end.
             serializedObject.Update();
-            string[] excludes = { "m_Script", "graph", "position", "ports" };
 
 #if ODIN_INSPECTOR
             try
@@ -72,10 +73,10 @@ namespace XNodeEditor
             GUIHelper.PopLabelWidth();
 #else
 
-            DrawProperties(excludes);
+            DrawProperties(propertyExcludes);
 #endif
 
-            DrawDynamicPorts();
+            DrawDynamicPorts(dynamicPortExcludes);
 
             serializedObject.ApplyModifiedProperties();
 
@@ -93,7 +94,7 @@ namespace XNodeEditor
         }
 
 #if !ODIN_INSPECTOR
-        protected virtual void DrawProperties(string[] excludes)
+        protected virtual void DrawProperties(string[] a_propertyExcludes)
         {
             // Iterate through serialized properties and draw them like the Inspector (But with ports)
             SerializedProperty iterator = serializedObject.GetIterator();
@@ -101,18 +102,18 @@ namespace XNodeEditor
             while (iterator.NextVisible(enterChildren))
             {
                 enterChildren = false;
-                if (excludes.Contains(iterator.name)) continue;
+                if (a_propertyExcludes.Contains(iterator.name)) continue;
                 NodeEditorGUILayout.PropertyField(iterator, true);
             }
         }
 #endif
 
-        protected virtual void DrawDynamicPorts()
+        protected virtual void DrawDynamicPorts(string[] a_dynamicPortExcludes)
         {
             // Iterate through dynamic ports and draw them in the order in which they are serialized
             foreach (XNode.NodePort dynamicPort in target.DynamicPorts)
             {
-                if (NodeEditorGUILayout.IsDynamicPortListPort(dynamicPort)) continue;
+                if (NodeEditorGUILayout.IsDynamicPortListPort(dynamicPort) || a_dynamicPortExcludes.Contains(dynamicPort.fieldName)) continue;
                 NodeEditorGUILayout.PortField(dynamicPort);
             }
         }

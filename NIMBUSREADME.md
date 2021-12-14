@@ -1,5 +1,10 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [12/14/2021] ADAM BROWN ###
+
+# Changes
+- NodeEditor: DrawProperties and DrawDynamicPorts both now have excludes exposed to derived editors.
+
 ### [12/10/2021] ADAM BROWN ###
 
 # Changes
