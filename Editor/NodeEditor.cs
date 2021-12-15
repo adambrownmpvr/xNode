@@ -21,6 +21,7 @@ namespace XNodeEditor
         public readonly static Dictionary<XNode.NodePort, Vector2> portPositions = new Dictionary<XNode.NodePort, Vector2>();
         protected virtual string[] propertyExcludes => new string[] { "m_Script", "graph", "position", "ports" };
         protected virtual string[] dynamicPortExcludes => new string[] { };
+        protected virtual bool useNonOdinProperties => false;
 
 #if ODIN_INSPECTOR
         protected internal static bool inNodeEditor = false;
@@ -72,9 +73,10 @@ namespace XNodeEditor
 #endif
             GUIHelper.PopLabelWidth();
 #else
-
-            DrawProperties(propertyExcludes);
+            // DrawProperties(propertyExcludes);
 #endif
+            if(useNonOdinProperties)
+                DrawProperties(propertyExcludes);
 
             DrawDynamicPorts(dynamicPortExcludes);
 
@@ -92,8 +94,6 @@ namespace XNodeEditor
             inNodeEditor = false;
 #endif
         }
-
-#if !ODIN_INSPECTOR
         protected virtual void DrawProperties(string[] a_propertyExcludes)
         {
             // Iterate through serialized properties and draw them like the Inspector (But with ports)
@@ -106,7 +106,6 @@ namespace XNodeEditor
                 NodeEditorGUILayout.PropertyField(iterator, true);
             }
         }
-#endif
 
         protected virtual void DrawDynamicPorts(string[] a_dynamicPortExcludes)
         {

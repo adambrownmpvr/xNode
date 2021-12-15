@@ -1,5 +1,11 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [12/15/2021] ADAM BROWN ###
+
+# Changes
+- NodeEditor: Moved DrawProperties outside of pre-processor for not using Odin inspector
+- NodeEditor: Added bool for drawing properties the standard way until we can understand Odin inspectors better
+
 ### [12/14/2021] ADAM BROWN ###
 
 # Changes
