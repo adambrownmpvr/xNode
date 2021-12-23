@@ -74,6 +74,10 @@ namespace XNode
                 Node.graphHotfix = graph;
                 Node node = Instantiate(nodes[i]) as Node;
                 node.graph = graph;
+
+                // replace (Clone) in node name to avoid issues with blackboard
+                node.name = node.name.Replace("(Clone)", "");
+
                 graph.nodes[i] = node;
             }
 
@@ -82,9 +86,7 @@ namespace XNode
             {
                 if (graph.nodes[i] == null) continue;
                 foreach (NodePort port in graph.nodes[i].Ports)
-                {
                     port.Redirect(nodes, graph.nodes);
-                }
 
                 graph.nodes[i].CopyDynamicPorts(nodes[i]);
             }
