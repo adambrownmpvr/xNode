@@ -243,6 +243,7 @@ namespace XNodeEditor
             NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, $"{graph.name}", true) as NodeEditorWindow;
             w.wantsMouseMove = true;
             w.graph = graph;
+            graph.VerifyNamesOfNodes();
             return w;
         }
 

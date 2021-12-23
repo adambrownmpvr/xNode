@@ -26,20 +26,6 @@ namespace XNode
             Node.graphHotfix = this;
             Node node = ScriptableObject.CreateInstance(type) as Node;
             node.graph = this;
-
-            foreach(Node eNode in nodes)
-            {
-                if (node.name != eNode.name)
-                    continue;
-
-                int count = 1;
-                string newName = $"{node.name}_{count}";
-                while(nodes.FirstOrDefault(n => n.name == newName) != null)
-                    newName = $"{node.name}_{++count}";
-
-                node.name = newName;
-            }
-
             nodes.Add(node);
             return node;
         }
@@ -114,6 +100,34 @@ namespace XNode
             // Remove all nodes prior to graph destruction
             Clear();
         }
+
+#if UNITY_EDITOR
+        public void VerifyNamesOfNodes()
+        {
+            List<Node> renamed = new List<Node>();
+
+            // spin through each node
+            foreach(Node nodeX in nodes)
+            {
+                // test against every other node
+                foreach (Node nodeY in nodes)
+                {
+                    // skip if the names are the name
+                    if (nodeX == nodeY || renamed.Contains(nodeY) || nodeX.name != nodeY.name)
+                        continue;
+
+                    // rename until we find a valid name
+                    int count = 1;
+                    string newName = $"{nodeX.name}_{count}";
+                    while (nodes.FirstOrDefault(n => n.name == newName) != null)
+                        newName = $"{nodeX.name}_{++count}";
+
+                    nodeX.name = newName;
+                    renamed.Add(nodeX);
+                }
+            }
+        }
+#endif
 
         #region Attributes
         /// <summary> Automatically ensures the existance of a certain node type, and prevents it from being deleted. </summary>

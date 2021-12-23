@@ -5,12 +5,16 @@ This file outlines the changes made to the BASE xNode asset.
 # Added
 - Node:
 	- CopyDynamicPorts()
+	- VerifyNamesOfNodes()
 
 # Changes
 - NodeGraph: 
 	- Added support for copying of DyanmicPorts in Copy()
 	- Removed "(Clone)" from names of copied ports
 	- Added renaming nodes when adding to graph
+- NodeGraphWindow:
+	- Added call for VerifyNamesOfNodes() in window open
+	- Added call for VerifyNamesOfNodes() on Node creation
 
 ### [12/15/2021] ADAM BROWN ###
 

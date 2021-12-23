@@ -238,6 +238,7 @@ namespace XNodeEditor
             if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(target))) AssetDatabase.AddObjectToAsset(node, target);
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
             NodeEditorWindow.RepaintAll();
+            target.VerifyNamesOfNodes();
             return node;
         }
 
