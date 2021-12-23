@@ -10,6 +10,7 @@ This file outlines the changes made to the BASE xNode asset.
 - NodeGraph: 
 	- Added support for copying of DyanmicPorts in Copy()
 	- Removed "(Clone)" from names of copied ports
+	- Added renaming nodes when adding to graph
 
 ### [12/15/2021] ADAM BROWN ###
 

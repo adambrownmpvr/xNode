@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,20 @@ namespace XNode
             Node.graphHotfix = this;
             Node node = ScriptableObject.CreateInstance(type) as Node;
             node.graph = this;
+
+            foreach(Node eNode in nodes)
+            {
+                if (node.name != eNode.name)
+                    continue;
+
+                int count = 1;
+                string newName = $"{node.name}_{count}";
+                while(nodes.FirstOrDefault(n => n.name == newName) != null)
+                    newName = $"{node.name}_{++count}";
+
+                node.name = newName;
+            }
+
             nodes.Add(node);
             return node;
         }
