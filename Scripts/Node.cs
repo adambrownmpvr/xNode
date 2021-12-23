@@ -152,6 +152,37 @@ namespace XNode
             foreach (NodePort port in Ports) port.VerifyConnections();
         }
 
+        public virtual void CopyDynamicPorts(Node a_original)
+        {
+            ClearDynamicPorts();
+            foreach (NodePort port in a_original.DynamicPorts)
+            {
+                // we don't want unconnected ports
+                if (!port.IsConnected)
+                    continue;
+
+                // create a new port on the copy with the same data as the original
+                NodePort nodePort = AddDynamicPort(port.ValueType, port.direction, port.connectionType, port.typeConstraint, port.fieldName);
+                NodePort connectedPort;
+
+                // find a node that matches the original node's connected port name
+                foreach (Node node in graph.nodes)
+                {
+                    if (node.name != port.Connection.node.name)
+                        continue;
+
+                    // get the port to connect to by fieldName
+                    connectedPort = node.GetPort(port.Connection.fieldName);
+                    if (connectedPort == null)
+                        continue;
+
+                    // connect the port
+                    nodePort.Connect(connectedPort);
+                    break;
+                }
+            }
+        }
+
         #region Dynamic Ports
         /// <summary> Convenience function. </summary>
         /// <seealso cref="AddInstancePort"/>
@@ -172,7 +203,7 @@ namespace XNode
         /// <summary> Add a dynamic, serialized port to this node. </summary>
         /// <seealso cref="AddDynamicInput"/>
         /// <seealso cref="AddDynamicOutput"/>
-        private NodePort AddDynamicPort(Type type, NodePort.IO direction, Node.ConnectionType connectionType = Node.ConnectionType.Multiple, Node.TypeConstraint typeConstraint = TypeConstraint.None, string fieldName = null)
+        public NodePort AddDynamicPort(Type type, NodePort.IO direction, Node.ConnectionType connectionType = Node.ConnectionType.Multiple, Node.TypeConstraint typeConstraint = TypeConstraint.None, string fieldName = null)
         {
             if (fieldName == null)
             {

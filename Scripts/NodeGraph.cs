@@ -85,6 +85,8 @@ namespace XNode
                 {
                     port.Redirect(nodes, graph.nodes);
                 }
+
+                graph.nodes[i].CopyDynamicPorts(nodes[i]);
             }
 
             return graph;

@@ -1,5 +1,15 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [12/23/2021] ADAM BROWN ###
+
+# Added
+- Node:
+	- CopyDynamicPorts()
+
+# Changes
+- NodeGraph: 
+	- Added support for copying of DyanmicPorts in Copy()
+
 ### [12/15/2021] ADAM BROWN ###
 
 # Changes
