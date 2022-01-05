@@ -1,0 +1,16 @@
+{
+    "name": "nimbus.xNode.groups",
+    "rootNamespace": "",
+    "references": [
+        "nimbus.xNode"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

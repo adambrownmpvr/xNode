@@ -1,0 +1,20 @@
+{
+    "name": "nimbus.xNode.groups.editor",
+    "rootNamespace": "",
+    "references": [
+        "nimbus.xNode",
+        "nimbus.xNode.editor",
+        "nimbus.xNode.groups"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
