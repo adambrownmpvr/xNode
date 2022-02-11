@@ -45,15 +45,41 @@ namespace XNodeEditor
             serializedObject.Update();
 
 #if ODIN_INSPECTOR
+            if (useNonOdinProperties)
+                DrawProperties(propertyExcludes);
+            else
+                DrawOdinProperties(propertyExcludes);
+#else
+            DrawProperties(propertyExcludes);
+#endif
+
+            DrawDynamicPorts(dynamicPortExcludes);
+            serializedObject.ApplyModifiedProperties();
+
+#if ODIN_INSPECTOR
+            // Call repaint so that the graph window elements respond properly to layout changes coming from Odin
+            if (GUIHelper.RepaintRequested)
+            {
+                GUIHelper.ClearRepaintRequest();
+                window.Repaint();
+            }
+
+            inNodeEditor = false;
+#endif
+        }
+
+#if ODIN_INSPECTOR
+        protected virtual void DrawOdinProperties(string[] a_propertyExcludes)
+        {
             try
             {
 #if ODIN_INSPECTOR_3
-                objectTree.BeginDraw( true );
+                objectTree.BeginDraw(true);
 #else
                 InspectorUtilities.BeginDrawPropertyTree(objectTree, true);
 #endif
             }
-            catch ( ArgumentNullException )
+            catch (ArgumentNullException)
             {
 #if ODIN_INSPECTOR_3
                 objectTree.EndDraw();
@@ -64,36 +90,27 @@ namespace XNodeEditor
                 return;
             }
 
-            GUIHelper.PushLabelWidth( 84 );
-            objectTree.Draw( true );
+            if (!useNonOdinProperties)
+            {
+                GUIHelper.PushLabelWidth(84);
+                foreach (InspectorProperty property in objectTree.EnumerateTree())
+                {
+                    if (propertyExcludes.Contains(property.Name))
+                        continue;
+
+                    property.Draw();
+                }
+            }
+
 #if ODIN_INSPECTOR_3
             objectTree.EndDraw();
 #else
             InspectorUtilities.EndDrawPropertyTree(objectTree);
 #endif
             GUIHelper.PopLabelWidth();
-#else
-            // DrawProperties(propertyExcludes);
-#endif
-            if(useNonOdinProperties)
-                DrawProperties(propertyExcludes);
-
-            DrawDynamicPorts(dynamicPortExcludes);
-
-            serializedObject.ApplyModifiedProperties();
-
-#if ODIN_INSPECTOR
-            // Call repaint so that the graph window elements respond properly to layout changes coming from Odin
-            if (GUIHelper.RepaintRequested) {
-                GUIHelper.ClearRepaintRequest();
-                window.Repaint();
-            }
-#endif
-
-#if ODIN_INSPECTOR
-            inNodeEditor = false;
-#endif
         }
+#endif
+
         protected virtual void DrawProperties(string[] a_propertyExcludes)
         {
             // Iterate through serialized properties and draw them like the Inspector (But with ports)

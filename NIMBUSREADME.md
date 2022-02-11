@@ -1,5 +1,12 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [02/11/2022] ADAM BROWN ###
+
+# Changed
+- NodeEditor
+	- Updated NodeEditor to exclude double draw when drawOdinProperties is true
+	- Added DrawOdinProperties (virtual) method
+
 ### [12/23/2021] ADAM BROWN ###
 
 # Added
