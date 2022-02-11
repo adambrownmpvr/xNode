@@ -93,7 +93,7 @@ namespace XNodeEditor
             if (!useNonOdinProperties)
             {
                 GUIHelper.PushLabelWidth(84);
-                foreach (InspectorProperty property in objectTree.EnumerateTree())
+                foreach (InspectorProperty property in objectTree.EnumerateTree(false))
                 {
                     if (propertyExcludes.Contains(property.Name))
                         continue;
