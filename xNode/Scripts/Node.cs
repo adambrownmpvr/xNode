@@ -155,30 +155,32 @@ namespace XNode
         public virtual void CopyDynamicPorts(Node a_original)
         {
             ClearDynamicPorts();
-            foreach (NodePort port in a_original.DynamicPorts)
+            foreach (NodePort originalPort in a_original.DynamicPorts)
             {
                 // we don't want unconnected ports
-                if (!port.IsConnected)
+                if (!originalPort.IsConnected)
                     continue;
 
                 // create a new port on the copy with the same data as the original
-                NodePort nodePort = AddDynamicPort(port.ValueType, port.direction, port.connectionType, port.typeConstraint, port.fieldName);
-                NodePort connectedPort;
-
-                // find a node that matches the original node's connected port name
-                foreach (Node node in graph.nodes)
+                NodePort newPort = AddDynamicPort(originalPort.ValueType, originalPort.direction, originalPort.connectionType, originalPort.typeConstraint, originalPort.fieldName);
+                foreach (NodePort originalConnection in originalPort.GetConnections())
                 {
-                    if (node.name != port.Connection.node.name)
-                        continue;
+                    NodePort dupeConnection;
+                    // find a node that matches the original node's connected port name
+                    foreach (Node dupeNode in graph.nodes)
+                    {
+                        if (dupeNode.name != originalConnection.node.name)
+                            continue;
 
-                    // get the port to connect to by fieldName
-                    connectedPort = node.GetPort(port.Connection.fieldName);
-                    if (connectedPort == null)
-                        continue;
+                        // get the port to connect to by fieldName
+                        dupeConnection = dupeNode.GetPort(originalConnection.fieldName);
+                        if (dupeConnection == null)
+                            continue;
 
-                    // connect the port
-                    nodePort.Connect(connectedPort);
-                    break;
+                        // connect the port
+                        newPort.Connect(dupeConnection);
+                        break;
+                    }
                 }
             }
         }

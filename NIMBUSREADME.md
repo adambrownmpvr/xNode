@@ -1,5 +1,11 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [02/16/2022] ADAM BROWN ###
+
+# Changed
+- Node
+	- updated copy dynamic ports to include multiple ports
+
 ### [02/11/2022] ADAM BROWN ###
 
 # Changed
