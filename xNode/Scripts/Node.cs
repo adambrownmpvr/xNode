@@ -155,25 +155,37 @@ namespace XNode
         public virtual void CopyDynamicPorts(Node a_original)
         {
             ClearDynamicPorts();
-            foreach (NodePort originalPort in a_original.DynamicPorts)
+            foreach (NodePort dynamicPort in a_original.DynamicPorts)
             {
                 // we don't want unconnected ports
-                if (!originalPort.IsConnected)
+                if (!dynamicPort.IsConnected)
                     continue;
 
                 // create a new port on the copy with the same data as the original
-                NodePort newPort = AddDynamicPort(originalPort.ValueType, originalPort.direction, originalPort.connectionType, originalPort.typeConstraint, originalPort.fieldName);
+                AddDynamicPort(dynamicPort.ValueType, dynamicPort.direction, dynamicPort.connectionType, dynamicPort.typeConstraint, dynamicPort.fieldName);
+            }
+
+            NodePort originalPort;
+            foreach (NodePort newPort in DynamicPorts)
+            {
+                originalPort = a_original.GetPort(newPort.fieldName);
+                NodePort dupeConnection;
                 foreach (NodePort originalConnection in originalPort.GetConnections())
                 {
-                    NodePort dupeConnection;
                     // find a node that matches the original node's connected port name
                     foreach (Node dupeNode in graph.nodes)
                     {
                         if (dupeNode.name != originalConnection.node.name)
                             continue;
 
+                        if (dupeNode.name.Contains("Booty"))
+                            Debug.Log("");
+
                         // get the port to connect to by fieldName
                         dupeConnection = dupeNode.GetPort(originalConnection.fieldName);
+                        if (dupeConnection.IsConnected && dupeConnection.Connection.node.graph != graph)
+                            dupeConnection.ClearConnections();
+
                         if (dupeConnection == null)
                             continue;
 

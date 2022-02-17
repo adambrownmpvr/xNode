@@ -1,5 +1,12 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [02/17/2022] ADAM BROWN ###
+
+# Changed
+- Node
+	- updated copy dynamic ports to remove bad connections to old graphs
+	- temporarily removed undos to test issues with losing connection
+
 ### [02/16/2022] ADAM BROWN ###
 
 # Changed
