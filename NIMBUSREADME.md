@@ -1,5 +1,13 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [02/22/2022] ADAM BROWN ###
+
+# Changed
+- Node
+	- Removed debug code
+- NodeGraph
+	- Added OnValidate check to update and verify node connections
+
 ### [02/17/2022] ADAM BROWN ###
 
 # Changed

@@ -178,9 +178,6 @@ namespace XNode
                         if (dupeNode.name != originalConnection.node.name)
                             continue;
 
-                        if (dupeNode.name.Contains("Booty"))
-                            Debug.Log("");
-
                         // get the port to connect to by fieldName
                         dupeConnection = dupeNode.GetPort(originalConnection.fieldName);
                         if (dupeConnection.IsConnected && dupeConnection.Connection.node.graph != graph)

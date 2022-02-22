@@ -102,6 +102,13 @@ namespace XNode
         }
 
 #if UNITY_EDITOR
+
+        protected virtual void OnValidate()
+        {
+            foreach(Node node in nodes)
+                node.VerifyConnections();
+        }
+
         public void VerifyNamesOfNodes()
         {
             List<Node> renamed = new List<Node>();
