@@ -1,5 +1,12 @@
 This file outlines the changes made to the BASE xNode asset.
 
+### [03/02/2022] ADAM BROWN ###
+
+# Changed
+- Node
+	- Updated CopyDynamicPorts to use an instance list for DynamicPorts to avoid enumeration exceptions
+
+
 ### [02/22/2022] ADAM BROWN ###
 
 # Changed

@@ -166,7 +166,7 @@ namespace XNode
             }
 
             NodePort originalPort;
-            foreach (NodePort newPort in DynamicPorts)
+            foreach (NodePort newPort in new List<NodePort>(DynamicPorts))
             {
                 originalPort = a_original.GetPort(newPort.fieldName);
                 NodePort dupeConnection;
