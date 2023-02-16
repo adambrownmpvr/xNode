@@ -80,6 +80,12 @@ namespace XNodeEditor
             }
         }
 
+        private void OnDestroy()
+        {
+            if (graph != null && EditorUtility.IsDirty(graph))
+                AssetDatabase.SaveAssets();
+        }
+
         public Dictionary<XNode.Node, Vector2> nodeSizes { get { return _nodeSizes; } }
         private Dictionary<XNode.Node, Vector2> _nodeSizes = new Dictionary<XNode.Node, Vector2>();
         public XNode.NodeGraph graph;
@@ -238,9 +244,13 @@ namespace XNodeEditor
         /// <summary>Open the provided graph in the NodeEditor</summary>
         public static NodeEditorWindow Open(XNode.NodeGraph graph)
         {
-            if (!graph) return null;
+            if (!graph)
+                return null;
 
             NodeEditorWindow w = GetWindow(typeof(NodeEditorWindow), false, $"{graph.name}", true) as NodeEditorWindow;
+            if (w.graph != null && w.graph != graph)
+                AssetDatabase.SaveAssets();
+
             w.wantsMouseMove = true;
             w.graph = graph;
             graph.VerifyNamesOfNodes();
